@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib.image as mpimg
 import matplotlib.figure as mpfig
-import seaborn as sns
+# import seaborn as sns
 
 class Matcher(object):
     """docstring for Match"""
@@ -10,6 +10,7 @@ class Matcher(object):
         super(Matcher, self).__init__()
         self._obj_win = obj_win
         self._search_img = search_img
+        self._win_size = 9
 
     def get_best_coords_matched(self, criteria = 'corr_func'):
         '''从 ._search_img 中 找出搜索窗口在 'critera' 标准下最好
@@ -23,9 +24,10 @@ class Matcher(object):
         best_x, best_y = 0, 0
         best_value = float('-inf')
 
-        for i in range(1, m -2):
-            for j in range(1, n - 2):
-                search_win = np.copy( self._search_img[i-1:i+2, j-1:j+2] )
+        h_w = self._win_size//2
+        for i in range(self._win_size//2, m -self._win_size//2 ):
+            for j in range(self._win_size//2, n -self._win_size//2 ):
+                search_win = np.copy( self._search_img[i-h_w:i+h_w+1, j-h_w:j+h_w+1] )
                 if criteria == 'corr_func':
                     score = self.correlation_func(self._obj_win, search_win)
                 elif criteria == 'corr_effi':
@@ -93,6 +95,7 @@ class MatcherTester(object):
         self._obj_img = mpimg.imread(self._obj_img_fname)
         self._search_img = mpimg.imread(self._search_img_fname)
 
+        self._win_size = 9
         self.get_points()
     
     def get_points(self):
@@ -120,23 +123,19 @@ class MatcherTester(object):
             poi_x, poi_y = self._coord_poi[i]
             print(poi_x)
             print(poi_y)
-            a = Matcher(self._obj_img[poi_x-1:poi_x+2, poi_y-1:poi_y+2],
+            h_w = self._win_size//2
+            print([poi_y-h_w,poi_y+h_w+1, poi_x-h_w, poi_x+h_w+1])
+            a = Matcher(self._obj_img[poi_y-h_w:poi_y+h_w+1, poi_x-h_w:poi_x+h_w+1],
                         self._search_img)
             best_poi = a.get_best_coords_matched(criteria)
             best_pois.append(best_poi)
         return best_pois
+
     def plot_matched_points(self, criteria = 'corr_func'):
 
         best_pois = self.matched_coords(criteria)
         print(best_pois)
 
-        # fig = mpfig.Figure()
-        # plt.imshow(self._search_img, cmap = 'Greys_r')
-        # for p, i in zip(best_pois, range(len(best_pois))):
-        #     plt.scatter(p[1], p[0]) 
-        #     plt.annotate(s = str(self._coord_name[i]), xy=(p[1], p[0]))       
-        # plt.show()
-        # plt.savefig('data/matchedpic_' + criteria+'_.bmp')      
         plt.figure()
         plt.imshow(self._search_img, cmap = 'Greys_r')
         for p, i in zip(best_pois, range(len(best_pois))):
@@ -144,8 +143,7 @@ class MatcherTester(object):
             plt.annotate(s = str(self._coord_name[i]), xy=(p[1], p[0]))       
         
         plt.savefig('data/matchedpic_' + criteria+'_.jpg')  
-        # savefig before show() !!!
-        #  plt.show()
+        #  plt.show()savefig before show() !!!
 
 def main():
     criteria_list = ['corr_func', 'corr_effi', 'cov_func', 'mod1', 'mod2']
@@ -155,6 +153,5 @@ def main():
         a.plot_matched_points(c)
 
 if __name__ == '__main__':
+    # 修改 _win_size 参数
     main()
-
-        
