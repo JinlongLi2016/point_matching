@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib.image as mpimg
 import matplotlib.figure as mpfig
-# import seaborn as sns
+import seaborn as sns
 
 class Matcher(object):
     """docstring for Match"""
@@ -141,7 +141,7 @@ class MatcherTester(object):
         for p, i in zip(best_pois, range(len(best_pois))):
             plt.scatter(p[1], p[0]) 
             plt.annotate(s = str(self._coord_name[i]), xy=(p[1], p[0]))       
-        
+        plt.title(criteria+'_picture')
         plt.savefig('data/matchedpic_' + criteria+'_.jpg')  
         #  plt.show()savefig before show() !!!
 
