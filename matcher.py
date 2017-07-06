@@ -121,10 +121,9 @@ class MatcherTester(object):
         best_pois = []
         for i in range(m): # 对每一个点,构建一个matcher类
             poi_x, poi_y = self._coord_poi[i]
-            print(poi_x)
-            print(poi_y)
+
             h_w = self._win_size//2
-            print([poi_y-h_w,poi_y+h_w+1, poi_x-h_w, poi_x+h_w+1])
+            # print([poi_y-h_w,poi_y+h_w+1, poi_x-h_w, poi_x+h_w+1])
             a = Matcher(self._obj_img[poi_y-h_w:poi_y+h_w+1, poi_x-h_w:poi_x+h_w+1],
                         self._search_img)
             best_poi = a.get_best_coords_matched(criteria)
@@ -134,7 +133,6 @@ class MatcherTester(object):
     def plot_matched_points(self, criteria = 'corr_func'):
 
         best_pois = self.matched_coords(criteria)
-        print(best_pois)
 
         plt.figure()
         plt.imshow(self._search_img, cmap = 'Greys_r')
