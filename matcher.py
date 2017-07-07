@@ -2,7 +2,7 @@
 ===========
 matcher.py
 ===========
-五种基本匹配算法(https://github.com/JinlongLi2016/resection)
+五种基本匹配算法(https://github.com/JinlongLi2016/point_matching)
 """
 __author__ = 'JinlongLi2016'
 __licence__ = 'MIT'
