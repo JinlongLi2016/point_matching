@@ -1,3 +1,13 @@
+"""
+===========
+matcher.py
+===========
+五种基本匹配算法(https://github.com/JinlongLi2016/resection)
+"""
+__author__ = 'JinlongLi2016'
+__licence__ = 'MIT'
+__versin__ = '1.0'
+
 import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib.image as mpimg
